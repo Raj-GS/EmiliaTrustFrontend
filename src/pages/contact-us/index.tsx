@@ -1,4 +1,5 @@
 "use client";
+import React, { useState } from "react";
 
 import { useForm } from "react-hook-form";
 import Navbar from "@/components/site/Navbar";
@@ -13,6 +14,10 @@ type ContactFormData = {
 };
 
 export default function ContactUsForm() {
+
+  const [loading, SetLoading] = useState(false)
+
+
   const {
     register,
     handleSubmit,
@@ -23,6 +28,9 @@ export default function ContactUsForm() {
 
 const onSubmit = async (data: ContactFormData) => {
   try {
+
+          SetLoading(true)
+
     const response = await axios.post("https://emiliatrustbackend.onrender.com/api/contact-us", data);
 
     if (response.status === 200) {
@@ -34,6 +42,9 @@ const onSubmit = async (data: ContactFormData) => {
   } catch (error) {
     console.error("Error submitting contact form:", error);
     alert("Failed to send message. Please try again later.");
+  }
+  finally {
+     SetLoading(false)
   }
 };
 
@@ -136,7 +147,7 @@ const onSubmit = async (data: ContactFormData) => {
               type="submit"
               className="w-full py-3 bg-[#9f3da8] text-white font-semibold rounded-lg shadow-md hover:scale-105 transition-transform duration-200"
             >
-              Send
+             {loading ? 'Please wait...' : 'Send'}
             </button>
           </form>
         </div>

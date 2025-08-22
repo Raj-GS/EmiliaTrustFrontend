@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import Navbar from "@/components/site/Navbar";
 import Footer from "@/components/site/Footer";
@@ -7,6 +7,9 @@ import { Users, BookOpen, Briefcase } from "lucide-react"; // icons
 import axios from "axios";
 
 function VolunteerForm() {
+
+  const [loading, SetLoading] = useState(false)
+
   const {
     register,
     handleSubmit,
@@ -17,6 +20,7 @@ function VolunteerForm() {
   const onSubmit = async(data: any) => {
 
      try {
+      SetLoading(true)
     const response = await axios.post("https://emiliatrustbackend.onrender.com/api/volunteer", data);
 
     if (response.status === 200) {
@@ -28,6 +32,8 @@ function VolunteerForm() {
   } catch (error) {
     console.error("Error submitting contact form:", error);
     alert("Failed to send message. Please try again later.");
+  }finally {
+     SetLoading(false)
   }
 
   };
@@ -231,7 +237,7 @@ function VolunteerForm() {
                 type="submit"
                 className="bg-gradient-to-r from-[#9f3da8] to-[#ec5932] text-white px-10 py-3 rounded-full font-semibold shadow-lg hover:scale-105 transition transform duration-200"
               >
-                Submit
+                {loading ? 'Please wait...' : 'Submit'}
               </button>
             </div>
           </form>
