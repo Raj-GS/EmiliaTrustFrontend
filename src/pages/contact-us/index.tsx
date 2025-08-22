@@ -23,7 +23,7 @@ export default function ContactUsForm() {
 
 const onSubmit = async (data: ContactFormData) => {
   try {
-    const response = await axios.post("http://localhost:5000/api/contact-us", data);
+    const response = await axios.post("https://emiliatrustbackend.onrender.com/api/contact-us", data);
 
     if (response.status === 200) {
       alert("Your message has been sent!");
